@@ -24,7 +24,7 @@
  * @param {Function} factory - Factory that creates SAT module
  */
 (function (root, factory) {
-  "use strict";
+  'use strict';
   if (typeof define === 'function' && define['amd']) {
     define(factory);
   } else if (typeof exports === 'object') {
@@ -33,7 +33,7 @@
     root['SAT'] = factory();
   }
 }(this, function () {
-  "use strict";
+  'use strict';
 
   var SAT = {};
 
@@ -401,7 +401,7 @@
   // Translates the points of this polygon by a specified amount relative to the origin of *its own coordinate
   // system* (i.e. `pos`).
   //
-  // This is most useful to change the "center point" of a polygon. If you just want to move the whole polygon, change
+  // This is most useful to change the 'center point' of a polygon. If you just want to move the whole polygon, change
   // the coordinates of `pos`.
   //
   // Note: This changes the **original** points (so any `offset` will be applied on top of this translation)
@@ -630,7 +630,7 @@
    */
   var T_RESPONSE = new Response();
 
-  // Tiny "point" polygon used for polygon hit detection.
+  // Tiny 'point' polygon used for polygon hit detection.
   /**
    * @type {Polygon}
    */
@@ -942,7 +942,7 @@
         // Otherwise, it's the middle region:
       } else {
         // Need to check if the circle is intersecting the edge,
-        // Change the edge into its "edge normal".
+        // Change the edge into its 'edge normal'.
         var normal = edge.perp().normalize();
         // Find the perpendicular distance between the center of the
         // circle and the edge.

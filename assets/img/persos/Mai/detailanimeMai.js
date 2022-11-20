@@ -2,42 +2,42 @@ export default {
     nbFrames: 526,
     animations: [
         {
-            name: "idle",
+            name: 'idle',
             start: 0,
             end: 11
         },
         {
-            name: "walkFwd",
+            name: 'walkFwd',
             start: 12,
             end: 16
         },
         {
-            name: "walkBwd",
+            name: 'walkBwd',
             start: 12,
             end: 16
         },
         {
-            name: "jump",
+            name: 'jump',
             start: 24,
             end: 34,
         },
         {
-            name: "crouch",
+            name: 'crouch',
             start: 39,
             end: 40,
         },
         {
-            name: "kick",
+            name: 'kick',
             start: 107,
             end: 114,
         },
         {
-            name: "dammaged",
+            name: 'dammaged',
             start: 23,
             end: 25,
         },
         {
-            name: "ko",
+            name: 'ko',
             start: 522,
             end: 525,
         }

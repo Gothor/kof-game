@@ -4,6 +4,12 @@
     box-sizing: border-box;
 }
 
+body {
+    overflow: hidden;
+    text-align: center;
+    background: #000;
+}
+
 canvas {
     border: 1px solid black;
     image-rendering: crisp-edges;
