@@ -16,10 +16,19 @@ export class Platform extends GameObject {
     this.color;
 
     this.onResize();
+    this.drawShadows = true;
   }
 
   draw() {
     this.context.fillStyle = this.color;
+
+    if (this.drawShadows) {
+      this.context.shadowColor = '#000000DD';
+      this.context.shadowOffsetX = 0;
+      this.context.shadowOffsetY = 5;
+      this.context.shadowBlur = this.platformHeight;
+    }
+    this.drawShadows = !this.drawShadows;
 
     this.context.fillRect(0, 0, this.platformWidth, this.platformHeight);
     this.context.strokeRect(0, 0, this.platformWidth, this.platformHeight);

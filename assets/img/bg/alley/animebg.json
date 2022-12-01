@@ -1,0 +1,10 @@
+{
+    "fileFormat": "frame_##.png",
+    "animations": [
+        {
+            "name": "animeBg",
+            "start": 0,
+            "end": 7
+        }
+    ]
+}

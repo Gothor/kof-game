@@ -3,11 +3,9 @@ import { Personnage } from './Personnage.js';
 import detailanimeMai from '../assets/img/persos/Mai/detailanimeMai.js';
 import detailanimeKing from '../assets/img/persos/King/detailanimeking.js';
 import detailanimeSie from '../assets/img/persos/Sie Kensou/detailanimeSie.js';
-import animebg from '../assets/img/bg/ruins/animebg.js';
-import animebg2 from '../assets/img/bg/shion/animebg.js';
-import animebg3 from '../assets/img/bg/alley/animebg.js';
 import { Platform } from './Platform.js';
 import { Color } from './Color.js';
+import { Resources } from './Resources.js';
 
 export class Game {
   constructor(cnv) {
@@ -28,9 +26,6 @@ export class Game {
     this.fps = 12;
     this._meanTimeFrame = 1000 / this.fps;
     this.timer;
-    this.bgFolder = ['ruins', 'shion', 'alley'];
-    this.nbFramesBg = [animebg.nbFrames, animebg2.nbFrames, animebg3.nbFrames];
-    this.bgAnime = [animebg, animebg2, animebg3];
 
     this.allFilesQueued = false;
     this.loadingComplete = false;
@@ -51,9 +46,20 @@ export class Game {
     this.timeEllapsed = 0;
   }
 
+  loadResources() {
+    this.backgroundAnimations = [
+      Resources.loadAnimations('assets/img/bg/alley/animebg.json', "alley"),
+      Resources.loadAnimations('assets/img/bg/shion/animebg.json', "shion"),
+      Resources.loadAnimations('assets/img/bg/ruins/animebg.json', "ruins")
+    ];
+
+    return new Promise((resolve) => setTimeout(_ => resolve(), 500));
+  }
+
   init() {
-    const randBg = Math.floor(Math.random() * 3);
-    this.background = new Decor(this.canvas, this.context, this.bgFolder[randBg], this.nbFramesBg[randBg], this.bgAnime[randBg]);
+    const randBg = Math.floor(Math.random() * this.backgroundAnimations.length);
+    console.log(this.backgroundAnimations[randBg].animeBg);
+    this.background = new Decor(this.canvas, this.context, this.backgroundAnimations[randBg].animeBg);
 
     let mai = new Personnage('Mai', 'Mai', 'Mai Shiranui_', 'L', 1, detailanimeMai, this.canvas, this.context);
     let king = new Personnage('King', 'King', 'King_', 'R', 2, detailanimeKing, this.canvas, this.context);
@@ -66,39 +72,13 @@ export class Game {
     this.characters.push(king3);
     this.characters.push(calum);
 
-    this.loadImages();
+    this.loadingComplete = true;
     this.generatePlatforms();
   }
 
   clearCanvas(color) {
     this.context.fillStyle = color;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-
-  loadImages() {
-    for (let i = 0; i < this.background.nbBgFrames; i++) {
-      const img = new Image();
-
-      img.onload = () => this.increaseImagesLoaded();
-      img.onerror = () => this.increaseImagesLoaded();
-
-      if (i === this.background.nbBgFrames - 1) {
-        this.allFilesQueued = true;
-      }
-      this.nbImagesToLoad++;
-      img.src = `assets/img/bg/${this.background.bgFolder}/frame_${i.toString().padStart(2, '0')}.png`;
-      this.background.bgLayers.push(img);
-    }
-  }
-
-  increaseImagesLoaded() {
-    this.nbImagesLoaded++;
-
-    if (!this.allFilesQueued) return;
-
-    if (this.nbImagesLoaded === this.nbImagesToLoad) {
-      this.loadingComplete = true;
-    }
   }
 
   onResize() {
@@ -168,6 +148,7 @@ export class Game {
     this.clearCanvas('white');
     this.background._draw();
     this.drawPlatforms();
+    this.drawPlatforms();
     //this.gridObj.drawObj();                                 // Dessine Item
     //console.log(this.gridObj);
     /* for (let player of this.tabPlayer) {
@@ -231,8 +212,8 @@ export class Game {
       positions.push({ x, y });
     }
 
-    const startColor = new Color('white');
-    const endColor = new Color('magenta');
+    const startColor = new Color('#505040');
+    const endColor = new Color('#303020');
 
     this.platforms = positions.map(pos => {
       const platform = new Platform(this.canvas, this.context);

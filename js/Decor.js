@@ -2,26 +2,22 @@ import { GameObject } from './GameObject.js';
 
 // CLASSE PRINCIPALE
 export class Decor extends GameObject {
-  constructor(canvas, context, bgFolder, bgFramesNb, detailAnime) {
+  constructor(canvas, context, animation) {
     super(canvas, context);
 
-    this.bgFolder = bgFolder;
-    this.bgLayers = [];
-    this.nbBgFrames = bgFramesNb;
-    this.imgId = 0;
-    this.animeDetail = detailAnime;
+    this.animation = animation;
 
     this.onResize();
   }
 
   onResize() {
-    if (!this.bgLayers[this.imgId]) return;
+    if (!this.animation.currentImage) return;
 
-    const ratioW = this.canvas.width / this.bgLayers[this.imgId].width;
-    const ratioH = this.canvas.height / this.bgLayers[this.imgId].height;
+    const ratioW = this.canvas.width / this.animation.currentImage.width;
+    const ratioH = this.canvas.height / this.animation.currentImage.height;
     const ratio = Math.max(ratioW, ratioH);
-    this.w = this.bgLayers[this.imgId].width * ratio;
-    this.h = this.bgLayers[this.imgId].height * ratio;
+    this.w = this.animation.currentImage.width * ratio;
+    this.h = this.animation.currentImage.height * ratio;
 
     this.setPosition(this.canvas.width / 2, this.canvas.height / 2);
   }
@@ -29,18 +25,13 @@ export class Decor extends GameObject {
   /* Dessin Background */
   draw() {
     this.context.drawImage(
-      this.bgLayers[this.imgId],
-      0, 0, this.bgLayers[this.imgId].width, this.bgLayers[this.imgId].height,
+      this.animation.currentImage,
+      0, 0, this.animation.currentImage.width, this.animation.currentImage.height,
       -this.w / 2, -this.h / 2, this.w, this.h);
   }
 
   /* Animation du Background */
   update() {
-    this.imgId++;
-    if (this.imgId > this.animeDetail.animations[0].end) {
-      this.imgId = this.animeDetail.animations[0].start;
-    }
-
-    if (this.w === undefined) this.onResize();
+    this.animation.update();
   }
 }
